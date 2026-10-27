@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-import time
 
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import requests
 import streamlit as st
+from streamlit_autorefresh import st_autorefresh
 import yfinance as yf
 
 st.set_page_config(page_title="Venom Backtester", page_icon="📈", layout="wide")
@@ -175,9 +175,8 @@ with st.sidebar:
     slippage_pct = st.number_input("Slippage per side (%)", min_value=0.0, max_value=2.0, value=0.02, step=0.01, format="%.3f")
 
 if refresh:
-    st.caption("Auto-refresh is enabled. The page reloads data every 60 seconds.")
-    time.sleep(0.01)
-    st.markdown('<meta http-equiv="refresh" content="60">', unsafe_allow_html=True)
+    st.caption("Auto-refresh is enabled. Market data is requested again every 60 seconds.")
+    st_autorefresh(interval=60_000, key="market_data_refresh")
 
 try:
     if source == "Binance (crypto)":
