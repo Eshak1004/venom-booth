@@ -7,7 +7,8 @@ This is an independent educational implementation of common backtesting workflow
 ## Features
 
 - Binance public candle data without an API key.
-- Yahoo Finance historical market data through `yfinance`; availability and delay depend on ticker and interval.
+- Yahoo Finance historical market data through `yfinance` for supported stocks, forex symbols, commodities, and indices; availability and delay depend on ticker and interval.
+- Presets for gold and silver futures, crude oil futures, EUR/USD, GBP/USD, USD/JPY, S&P 500, Nasdaq Composite, Apple, Microsoft, and Bitcoin USD, plus a custom Yahoo ticker option.
 - CSV import for your own historical data.
 - SMA crossover signals, optional short positions, and configurable starting balance, fees, and slippage.
 - Candlestick chart, moving averages, signal markers, strategy equity curve, and buy-and-hold comparison.
