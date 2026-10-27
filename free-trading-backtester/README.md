@@ -10,10 +10,35 @@ This is an independent educational implementation of common backtesting workflow
 - Yahoo Finance historical market data through `yfinance` for supported stocks, forex symbols, commodities, and indices; availability and delay depend on ticker and interval.
 - Presets for gold and silver futures, crude oil futures, EUR/USD, GBP/USD, USD/JPY, S&P 500, Nasdaq Composite, Apple, Microsoft, and Bitcoin USD, plus a custom Yahoo ticker option.
 - CSV import for your own historical data.
+- Two interfaces: browser dashboard (`app.py`) and Windows desktop app (`desktop_app.py`). Both use `backtest_engine.py`.
 - SMA crossover signals, optional short positions, and configurable starting balance, fees, and slippage.
 - Candlestick chart, moving averages, signal markers, strategy equity curve, and buy-and-hold comparison.
 - Return, approximate Sharpe ratio, maximum drawdown, position-change count, and downloadable CSV output.
 - Optional page refresh every 60 seconds to request updated data.
+
+## Run the web interface on Windows
+
+1. Install Python 3.10 or newer.
+2. Double-click `run_web.bat`, or run the commands below from PowerShell.
+
+```powershell
+py -m venv .venv
+.\\.venv\\Scripts\\python.exe -m pip install -r requirements.txt
+.\\.venv\\Scripts\\python.exe -m streamlit run app.py
+```
+
+## Run the desktop interface on Windows
+
+1. Install Python 3.10 or newer.
+2. Double-click `run_desktop.bat`, or run:
+
+```powershell
+py -m venv .venv
+.\\.venv\\Scripts\\python.exe -m pip install -r requirements.txt
+.\\.venv\\Scripts\\python.exe desktop_app.py
+```
+
+The desktop interface is built with Python's Tkinter GUI toolkit. Its interactive price chart opens in your default browser. The Windows launcher files install dependencies into a local virtual environment.
 
 ## Run locally on Windows
 
