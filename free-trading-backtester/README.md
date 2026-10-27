@@ -1,6 +1,6 @@
 # Venom Backtester
 
-A free Python/Streamlit trading research app for testing a simple moving-average crossover strategy against historical OHLCV candles. It can retrieve public Binance crypto candles, request Yahoo Finance data for supported tickers (including the gold futures symbol `GC=F` where available), or read a CSV file you provide.
+A free Python trading research project with a Streamlit web dashboard and a native Tkinter desktop interface. Both interfaces use the same backtesting engine and support public Binance crypto candles, Yahoo Finance data for supported instruments (including gold futures `GC=F` where available), or user-provided OHLCV CSV files.
 
 This is an independent educational implementation of common backtesting workflows. It is **not a copied or reverse-engineered proprietary product**, and it is not a broker or trade execution system.
 
@@ -39,27 +39,6 @@ py -m venv .venv
 ```
 
 The desktop interface is built with Python's Tkinter GUI toolkit. Its interactive price chart opens in your default browser. The Windows launcher files install dependencies into a local virtual environment.
-
-## Run locally on Windows
-
-Install Python 3.10 or newer, then open PowerShell in this folder.
-
-```powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-streamlit run app.py
-```
-
-Streamlit will print a local address, usually `http://localhost:8501`. Open that address in your browser.
-
-If PowerShell blocks activation, you can run the virtual environment's Python directly:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m streamlit run app.py
-```
 
 ## Data source notes
 
