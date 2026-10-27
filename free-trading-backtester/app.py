@@ -152,14 +152,33 @@ st.caption("A free, open-source-style research tool for historical testing and n
 
 with st.sidebar:
     st.header("1. Market data")
-    source = st.selectbox("Data source", ["Binance (crypto)", "Yahoo Finance (stocks / gold)", "Upload CSV"])
+    source = st.selectbox("Data source", ["Binance (crypto)", "Yahoo Finance (stocks / forex / commodities / indices)", "Upload CSV"])
     refresh = st.toggle("Auto-refresh data every 60 seconds", value=False)
     if source == "Binance (crypto)":
         symbol = st.text_input("Binance symbol", "BTCUSDT").strip().upper()
         interval = st.selectbox("Candle interval", ["1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "1d"], index=3)
         limit = st.slider("Candles to load (max 1,000)", 100, 1000, 500, 100)
-    elif source == "Yahoo Finance (stocks / gold)":
-        ticker = st.text_input("Yahoo ticker", "GC=F").strip()
+    elif source == "Yahoo Finance (stocks / forex / commodities / indices)":
+        presets = {
+            "Gold futures": "GC=F",
+            "Silver futures": "SI=F",
+            "Crude oil futures": "CL=F",
+            "EUR/USD forex": "EURUSD=X",
+            "GBP/USD forex": "GBPUSD=X",
+            "USD/JPY forex": "JPY=X",
+            "S&P 500 index": "^GSPC",
+            "Nasdaq Composite index": "^IXIC",
+            "Apple stock": "AAPL",
+            "Microsoft stock": "MSFT",
+            "Bitcoin USD": "BTC-USD",
+            "Custom ticker": "",
+        }
+        preset = st.selectbox("Market / instrument", list(presets.keys()), index=0)
+        if preset == "Custom ticker":
+            ticker = st.text_input("Yahoo Finance ticker", "GC=F").strip()
+        else:
+            ticker = presets[preset]
+            st.caption(f"Selected Yahoo Finance symbol: {ticker}")
         period = st.selectbox("Historical period", ["1d", "5d", "1mo", "3mo", "6mo", "1y", "2y", "5y"], index=2)
         interval = st.selectbox("Candle interval", ["1m", "2m", "5m", "15m", "30m", "60m", "1d", "1wk"], index=3)
     else:
@@ -182,7 +201,7 @@ try:
     if source == "Binance (crypto)":
         data = load_binance(symbol, interval, limit)
         source_label = f"Binance public market data · {symbol} · {interval}"
-    elif source == "Yahoo Finance (stocks / gold)":
+    elif source == "Yahoo Finance (stocks / forex / commodities / indices)":
         data = load_yahoo(ticker, period, interval)
         source_label = f"Yahoo Finance · {ticker} · {interval}"
     else:
