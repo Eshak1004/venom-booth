@@ -170,30 +170,44 @@ class VenomDesktopApp:
     def run_clicked(self):
         if self.busy:
             return
+        config = {
+            "source": self.source.get(),
+            "ticker": self.ticker.get().strip(),
+            "interval": self.interval.get(),
+            "period": self.period.get(),
+            "fast": self.fast.get(),
+            "slow": self.slow.get(),
+            "cash": self.cash.get(),
+            "fee": self.fee.get(),
+            "slippage": self.slippage.get(),
+            "allow_short": self.allow_short.get(),
+            "csv_path": self.csv_path,
+        }
         self.busy = True
         self.run_button.configure(state="disabled")
         self.status.set("Loading market data and running backtest…")
-        threading.Thread(target=self._run_worker, daemon=True).start()
+        threading.Thread(target=self._run_worker, args=(config,), daemon=True).start()
 
-    def _run_worker(self):
+    def _run_worker(self, config):
         try:
-            source = self.source.get()
-            interval = self.interval.get()
+            source = config["source"]
+            interval = config["interval"]
+            ticker = config["ticker"]
             if source == "Binance":
-                data = load_binance(self.ticker.get().strip().upper(), interval, 1000)
-                label = f"Binance {self.ticker.get().strip().upper()} {interval}"
+                data = load_binance(ticker.upper(), interval, 1000)
+                label = f"Binance {ticker.upper()} {interval}"
             elif source == "Yahoo Finance":
-                data = load_yahoo(self.ticker.get().strip(), self.period.get(), interval)
-                label = f"Yahoo Finance {self.ticker.get().strip()} {interval}"
+                data = load_yahoo(ticker, config["period"], interval)
+                label = f"Yahoo Finance {ticker} {interval}"
             else:
-                if not self.csv_path:
+                if not config["csv_path"]:
                     raise ValueError("Choose a CSV file first.")
-                data = load_csv(self.csv_path)
-                label = f"CSV {Path(self.csv_path).name}"
+                data = load_csv(config["csv_path"])
+                label = f"CSV {Path(config['csv_path']).name}"
 
-            fast, slow = int(self.fast.get()), int(self.slow.get())
-            cash, fee, slip = float(self.cash.get()), float(self.fee.get()), float(self.slippage.get())
-            tested, metrics, trades = run_backtest(data, fast, slow, cash, fee, slip, self.allow_short.get())
+            fast, slow = int(config["fast"]), int(config["slow"])
+            cash, fee, slip = float(config["cash"]), float(config["fee"]), float(config["slippage"])
+            tested, metrics, trades = run_backtest(data, fast, slow, cash, fee, slip, config["allow_short"])
             self.root.after(0, lambda: self._show_result(label, data, tested, metrics, trades))
         except Exception as exc:
             self.root.after(0, lambda message=str(exc): self._show_error(message))
