@@ -33,3 +33,15 @@ I am at the beginning of my development journey and use this repository to docum
 ---
 
 **Learning step by step. Building something useful every day.**
+
+
+## Web + Desktop Trading Backtester
+
+The repository now includes a shared Python backtesting engine with both a browser dashboard and a Windows desktop interface.
+
+- [Open the backtester project](./free-trading-backtester/)
+- [Run the web dashboard](./free-trading-backtester/run_web.bat) on Windows
+- [Run the desktop app](./free-trading-backtester/run_desktop.bat) on Windows
+- [Read installation and data limitations](./free-trading-backtester/README.md)
+
+Market data availability and delays vary by provider. The project is for research and education; it does not execute trades or provide financial advice.
